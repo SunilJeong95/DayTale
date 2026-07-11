@@ -26,6 +26,8 @@ export const ko = {
     loginWithKakao: "카카오로 계속하기",
     loginFailed: "로그인에 실패했어요. 다시 시도해주세요",
     logout: "로그아웃",
+    callbackFailedTitle: "로그인을 완료하지 못했어요",
+    callbackBackToLogin: "로그인 화면으로 돌아가기",
   },
   // OWNED BY WS-B
   onboarding: {
