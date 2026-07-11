@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { supabase } from "@/lib/supabase";
@@ -7,15 +8,30 @@ import { supabase } from "@/lib/supabase";
  *
  * Kakao sign-in via Supabase's built-in Kakao OAuth provider (plan §3):
  * `supabase.auth.signInWithOAuth({ provider: 'kakao', options: { redirectTo
- * } })` opened with `expo-web-browser`'s `openAuthSessionAsync`, then
- * exchange the returned `code` for a session via `exchangeCodeForSession`.
- * No native Kakao SDK needed for v1.
+ * } })`. No native Kakao SDK needed for v1.
  *
- * `skipBrowserRedirect: true` is required in React Native — without it
- * supabase-js tries to navigate `window.location`, which does not exist on
- * native; we need the authorize URL back so we can open it ourselves.
+ * Native: opened with `expo-web-browser`'s `openAuthSessionAsync` (needs
+ * `skipBrowserRedirect: true` since supabase-js would otherwise try to
+ * navigate `window.location`, which doesn't exist on native), then the
+ * `code` it returns via the `daytale://auth/callback` deep link is exchanged
+ * for a session via `exchangeCodeForSession`.
+ *
+ * Web: `openAuthSessionAsync` only opens a new tab and can't observe the
+ * deep-link-style return, so instead we let supabase-js do a normal
+ * full-page redirect (no `skipBrowserRedirect`) to Kakao and back to
+ * app/auth/callback.tsx, which performs the code exchange after reload.
  */
 export async function signInWithKakao(): Promise<void> {
+  if (Platform.OS === "web") {
+    const redirectTo = `${window.location.origin}/auth/callback`;
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "kakao",
+      options: { redirectTo },
+    });
+    if (error) throw error;
+    return;
+  }
+
   const redirectTo = Linking.createURL("auth/callback");
 
   const { data, error } = await supabase.auth.signInWithOAuth({
