@@ -1,0 +1,46 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# env
+.env
+.env.local
+apps/mobile/.env
+services/worker/.env
+
+# expo
+apps/mobile/.expo/
+apps/mobile/dist/
+apps/mobile/web-build/
+*.orig.*
+apps/mobile/*.jks
+apps/mobile/*.p8
+apps/mobile/*.p12
+apps/mobile/*.key
+apps/mobile/*.mobileprovision
+
+# typescript build output
+**/dist/
+**/build/
+*.tsbuildinfo
+
+# supabase local
+supabase/.branches/
+supabase/.temp/
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+
+# claude code local-only state
+.claude/settings.local.json
+.claude/*.backup.*
+.claude/scheduled_tasks.lock
+
+# oh-my-claudecode runtime state
+.omc/
+**/.omc/

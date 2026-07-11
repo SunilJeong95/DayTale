@@ -1,0 +1,22 @@
+{
+  "name": "daytale",
+  "private": true,
+  "version": "0.1.0",
+  "description": "DayTale — 일기를 소설로 바꿔주는 연재 앱 (monorepo root)",
+  "packageManager": "pnpm@11.10.0",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:mobile": "pnpm --filter @daytale/mobile start",
+    "dev:worker": "pnpm --filter @daytale/worker dev",
+    "build:shared": "pnpm --filter @daytale/shared build",
+    "typecheck": "pnpm -r run typecheck",
+    "lint": "pnpm -r run lint"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

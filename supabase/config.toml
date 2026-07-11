@@ -1,0 +1,58 @@
+# supabase/config.toml — minimal local-dev Supabase CLI config (M0 scaffolding).
+# OWNED BY WS-A for schema-relevant settings (auth providers, etc). This file
+# only establishes a runnable local stack (`supabase start`); migrations live
+# in supabase/migrations/ (empty, ready for WS-A: 0001_init.sql, 0002_rls.sql,
+# 0003_rpc.sql per plan §5 M1).
+
+project_id = "daytale"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+# App deep-link scheme for OAuth redirects (plan §3 — required for Kakao).
+site_url = "daytale://"
+additional_redirect_urls = ["daytale://auth/callback"]
+jwt_expiry = 3600
+enable_signup = true
+
+# TODO(WS-A): configure social providers below once client ids/secrets exist
+# (see root .env.example: GOOGLE_*, APPLE_*, KAKAO_*).
+[auth.external.google]
+enabled = false
+client_id = "env(GOOGLE_WEB_CLIENT_ID)"
+secret = ""
+
+[auth.external.apple]
+enabled = false
+client_id = "env(APPLE_SERVICES_ID)"
+secret = ""
+
+[auth.external.kakao]
+enabled = true
+client_id = "env(KAKAO_REST_API_KEY)"
+secret = "env(KAKAO_CLIENT_SECRET)"
+
+[realtime]
+enabled = true
+
+[storage]
+enabled = true
+
+# Disabled: logflare + vector are the heaviest optional services and aren't
+# needed to run/test the app locally — only Studio's log explorer uses them.
+[analytics]
+enabled = false

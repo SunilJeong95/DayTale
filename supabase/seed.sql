@@ -1,0 +1,22 @@
+-- seed.sql — local dev seed data (WS-A)
+--
+-- Intentionally empty. Every table in this schema is rooted in
+-- `public.profiles.id references auth.users(id)` (profiles -> series ->
+-- diary_entries/episodes -> episode_sources/generation_jobs -> reports ->
+-- blocks all cascade from a profile, which cascades from an auth.users row).
+-- There is no real `auth.users` row to attach seed data to outside of an
+-- actual GoTrue signup (social OAuth per plan §3), and `auth.users` is a
+-- Supabase-internal table whose required columns (instance_id, aud, role,
+-- encrypted_password, confirmation flags, etc.) are an implementation detail
+-- that can change between Supabase versions — hand-inserting a fake row to
+-- satisfy the FK would be exactly the kind of "fake auth.users hack that
+-- doesn't reflect reality" the task asked to avoid, and would silently rot
+-- as Supabase's auth schema evolves.
+--
+-- Recommended local-dev workflow instead: `supabase start`, sign up once
+-- through the app (or `supabase.auth.signUp` in a scratch script) to get a
+-- real `auth.users` row + trigger-created `profiles` row, then use the
+-- Supabase Studio SQL editor (or a small authenticated script) to insert a
+-- diary_entries row and call `enqueue_generation` / `publish_episode` against
+-- that real user. This exercises the actual RLS + RPC path end-to-end,
+-- which a hand-seeded row would bypass entirely anyway.

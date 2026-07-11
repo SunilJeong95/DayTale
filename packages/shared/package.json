@@ -1,0 +1,18 @@
+{
+  "name": "@daytale/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared TypeScript types, zod schemas, and enums for DayTale (WS-D)",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}

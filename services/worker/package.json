@@ -1,0 +1,24 @@
+{
+  "name": "@daytale/worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "DayTale generation worker — polls generation_jobs, calls Gemini, sends push (plan §1.1, §2)",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "tsx --env-file=.env watch src/index.ts",
+    "start": "tsx --env-file=.env src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@daytale/shared": "workspace:*",
+    "@google/genai": "^1.0.0",
+    "@supabase/supabase-js": "^2.45.4",
+    "expo-server-sdk": "^3.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "tsx": "^4.19.1",
+    "typescript": "^5.5.4"
+  }
+}
